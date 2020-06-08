@@ -13,7 +13,7 @@ WINDOW_HEIGHT = 600
 deltaX = 1
 deltaY = 1
 
-time_interval = 1  # try  1000 msec
+time_interval =4 # try  1000 msec
 
 class RectLevel:
     def __init__(self, left, bottom, right, top):
@@ -23,20 +23,7 @@ class RectLevel:
         self.top = top
 
     # creating list
-new=[]  #list from class
-
-#new.append(RectLevel(435, 444, 475,460)) #len 30 high 16 #the first left rect in first level
-new.append(RectLevel(435, 444, 475,460))
-new.append(RectLevel(390, 444, 430, 460)) #step between them 15
-new.append(RectLevel(345, 444, 385, 460))
-new.append(RectLevel(300, 444, 340, 460))
-new.append(RectLevel(255, 444, 295, 460))
-new.append(RectLevel(210, 444, 250, 460))
-new.append(RectLevel(165, 444, 205, 460))
-new.append(RectLevel(120, 444, 160, 460))
-new.append(RectLevel(75 , 444, 115, 460))
-new.append(RectLevel(29 , 444, 70, 460))
-
+new=[]
 
 count_y = 30 # counter to shift the rect to the higher level in y axis
 count_x=0#counter to shift the rect to the second rect in x axis(At the same level(
