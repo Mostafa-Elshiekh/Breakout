@@ -13,7 +13,7 @@ WINDOW_HEIGHT = 600
 deltaX = 1
 deltaY = 1
 
-time_interval = 10  # try  1000 msec
+time_interval = 1  # try  1000 msec
 
 class RectLevel:
     def __init__(self, left, bottom, right, top):
@@ -25,51 +25,29 @@ class RectLevel:
     # creating list
 new=[]  #list from class
 
-for i in range (0,10):
-    new.append(RectLevel(0,380,60,395))
-for j in range (10,20):
-    new.append(RectLevel(0,418,66,434))
-
-for K in range (20,30):
-    new.append(RectLevel(0,418,66,434))
-
-
-# Any function it name is levels ..it Determined the size of rect
-def levels():
-    count = 10 #A counter that works as a step to separate each rectangle and another
-    for i in range(0, 10):
-        new[i].left = 60 + count
-        new[i].right = 20 + count
-        count = count + 45
-
-def levels1():
-
-      count=10
-      for j in range(10,20):
-           new[j].left=60+count
-           new[j].right=20+count
-           count=count+45
+#new.append(RectLevel(435, 444, 475,460)) #len 30 high 16 #the first left rect in first level
+new.append(RectLevel(435, 444, 475,460))
+new.append(RectLevel(390, 444, 430, 460)) #step between them 15
+new.append(RectLevel(345, 444, 385, 460))
+new.append(RectLevel(300, 444, 340, 460))
+new.append(RectLevel(255, 444, 295, 460))
+new.append(RectLevel(210, 444, 250, 460))
+new.append(RectLevel(165, 444, 205, 460))
+new.append(RectLevel(120, 444, 160, 460))
+new.append(RectLevel(75 , 444, 115, 460))
+new.append(RectLevel(29 , 444, 70, 460))
 
 
-def levels2():
-    count = 10
-    for k in range(20, 30):
-        new[k].left = 60 + count
-        new[k].right = 20 + count
-        count = count + 45
+count_y = 30 # counter to shift the rect to the higher level in y axis
+count_x=0#counter to shift the rect to the second rect in x axis(At the same level(
 
+for k in range(0,4):
+ for j in range(0,10):
+    new.append(RectLevel(435-count_x, 444+count_y, 475-count_x, 460+count_y))
+    count_x+=45
 
-'''def block(left, bottom, right, top):
-    glLoadIdentity()
-    glBegin(GL_QUADS)
-    count=10
-    for i in range (0,2):
-        glVertex(left[i]-count, bottom, 0)  # Left - Bottom
-        glVertex(right[i]+count, bottom, 0)
-        glVertex(right[i]+count, top, 0)
-        glVertex(left[i]-count, top, 0)
-        count
-    glEnd()'''
+ count_y += 30 #increment y to go higher level
+ count_x=0 #make it 0 to return to the start of level
 
 #class to define attributes for Bat and boll
 class RECTA:
@@ -81,7 +59,7 @@ class RECTA:
 
 
 #initial position of the borders ,wall and ball
-ball = RECTA(100, 100, 120, 120)  # initial position of the ball
+ball = RECTA(50, 50, 65,65)  # initial position of the ball
 wall = RECTA(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
 player = RECTA(100,30,80,40)  # initial position of the bat
 RectLeftDown=RECTA(0,300,100,0)  # initial position of the bat
@@ -153,14 +131,6 @@ def borders():
     Rect9.left = 495  # remember that "mouse_x" is a global variable
     Rect9.right = 482
 
-#def levels():
-        #List[0].append(RectLevel(0,100,100,300))
-        #List.left = 30  # remember that "mouse_x" is a global variable
-        #List.right = 30
-        #glColor(1, 0, 0)
-        #DrawRectangle(List)
-
-
 
 
 def drawText(string, x, y):
@@ -199,12 +169,6 @@ def Test_Ball_Player(ball, player):  # Collision Detection between Ball and Bat
     if ball.bottom <= player.top and ball.left >= player.left and ball.right <= player.right:
         return True
     return False
-
-
-# Key Board Messages
-def keyboard(key, x, y):
-    if key == b"q":
-        sys.exit(0)
 
 
 mouse_x = 0
@@ -269,13 +233,7 @@ def Display():
 
 
     borders()
-    levels()
-    levels1()
-    levels2()
     glColor(0, 0.5, 0)
-    #block(200,400,250,420)
-    #block(320,400,270,420)
-
     glColor(1, 1, 1)
     DrawRectangle(player)
 
@@ -296,23 +254,10 @@ def Display():
     DrawRectangle(Rect8)
     glColor(0.5, 0.5, 0)
     DrawRectangle(Rect9)
-    glColor(0, 1, 0)
+    glColor(0.5, 0.8, 0)
 
-    for i in range (0,10):   # to draw the first level
+    for i in range(0,40):   # to draw the all rect in levels
         DrawRectangle(new[i])
-
-    for j in range (10,20):  # to draw the second level
-        DrawRectangle(new[j])
-
-    for k in range(20, 30):
-        DrawRectangle(new[k])
-
-
-
-
-
-
-
 
 
 
@@ -336,7 +281,6 @@ def main():
     glutCreateWindow(b"Simple Ball Bat OpenGL game");
     glutDisplayFunc(Display)
     glutTimerFunc(time_interval, Timer, 1)
-    glutKeyboardFunc(keyboard)
     glutPassiveMotionFunc(MouseMotion)
     #glutWireSphere(100,10,10)
     #glColor3f(0,1,1)
