@@ -1,6 +1,12 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
+from playsound import playsound
+import threading
+import time 
+
+def Sound_thread (filename): 
+    playsound(filename)
 
 FROM_RIGHT = 1
 FROM_LEFT = 2
@@ -13,7 +19,7 @@ WINDOW_HEIGHT = 600
 deltaX = 1
 deltaY = 1
 
-time_interval =4 # try  1000 msec
+time_interval =5 # try  1000 msec
 
 class RectLevel:
     def __init__(self, left, bottom, right, top):
@@ -25,8 +31,8 @@ class RectLevel:
     # creating list
 new=[]
 
-count_y = 30 # counter to shift the rect to the higher level in y axis
-count_x=0#counter to shift the rect to the second rect in x axis(At the same level(
+count_y = 30   # counter to shift the rect to the higher level in y axis
+count_x=0      #counter to shift the rect to the second rect in x axis(At the same level(
 
 for k in range(0,4):
  for j in range(0,10):
@@ -138,7 +144,6 @@ def Test_Ball_Wall(ball, wall):  # Collision Detection between Ball and Wall
     global FROM_TOP
     global FROM_BOTTOM
 
-    # print(ball.right)
 
     if ball.right >= wall.right-12:
         return FROM_RIGHT
@@ -151,6 +156,29 @@ def Test_Ball_Wall(ball, wall):  # Collision Detection between Ball and Wall
 
     # Otherwise this function returns None
 
+
+def Test_Ball_Brick(ball, new):  # Collision Detection between Ball and Brick
+    global FROM_RIGHT
+    global FROM_LEFT
+    global FROM_TOP
+    global FROM_BOTTOM
+
+    
+    for k in range(0,4):
+        for j in range(0,10):
+            if ball.top >= new[j].bottom:
+                return FROM_TOP
+            '''
+            if ball.right >= new[j].right :
+                return FROM_RIGHT
+            if ball.left >= new[j].left:
+                return FROM_LEFT
+            if ball.bottom <= new[j].bottom:
+                return FROM_BOTTOM
+            '''
+    
+def brickRemove(bricklist,bricknum):
+    bricklist.pop(bricknum)
 
 def Test_Ball_Player(ball, player):  # Collision Detection between Ball and Bat
     if ball.bottom <= player.top and ball.left >= player.left and ball.right <= player.right:
@@ -204,16 +232,54 @@ def Display():
 
     if Test_Ball_Wall(ball, wall) == FROM_RIGHT:
         deltaX = -1
+        x = threading.Thread(target=Sound_thread , args=("./sounds/wall.mp3",)) 
+        x.start()
 
     if Test_Ball_Wall(ball, wall) == FROM_LEFT:
         deltaX = 1
+        x = threading.Thread(target=Sound_thread , args=("./sounds/wall.mp3",)) 
+        x.start()
 
     if Test_Ball_Wall(ball, wall) == FROM_TOP:
         deltaY = -1
+        x = threading.Thread(target=Sound_thread , args=("./sounds/wall.mp3",)) 
+        x.start()
 
     if Test_Ball_Wall(ball, wall) == FROM_BOTTOM:
         deltaY = 1
-        pcResult = pcResult + 1
+        x = threading.Thread(target=Sound_thread , args=("./sounds/wall.mp3",)) 
+        x.start()
+        
+
+    if Test_Ball_Brick(ball,new) == FROM_TOP : 
+        deltaY = -1
+        x = threading.Thread(target=Sound_thread , args=("./sounds/brick.mp3",)) 
+        x.start()
+        playerResult = playerResult + 1
+        brickRemove(new,BrickNum)
+
+    
+    # Some possibilities if the ball passed from any space left and hit the bricks from above or from sides
+
+    '''
+    if Test_Ball_Brick(ball,new) == FROM_BOTTOM : 
+        deltaY = 1
+        x = threading.Thread(target=Sound_thread , args=("./sounds/brick.mp3",)) 
+        x.start()
+        playerResult = playerResult + 1
+
+    if Test_Ball_Brick(ball,new) == FROM_LEFT : 
+        deltaX = 1
+        x = threading.Thread(target=Sound_thread , args=("./sounds/brick.mp3",)) 
+        x.start()
+        playerResult = playerResult + 1
+
+    if Test_Ball_Brick(ball,new) == FROM_RIGHT : 
+        deltaX = -1
+        x = threading.Thread(target=Sound_thread , args=("./sounds/brick.mp3",)) 
+        x.start()
+        playerResult = playerResult + 1
+    '''
 
     player.left= mouse_x - 30  # remember that "mouse_x" is a global variable
     player.right = mouse_x + 30
@@ -253,7 +319,9 @@ def Display():
 
     if Test_Ball_Player(ball, player) == True:
         deltaY = 1
-        playerResult = playerResult + 1
+        x = threading.Thread(target=Sound_thread , args=("./sounds/bat.mp3",)) 
+        x.start()
+        
 
     glutSwapBuffers()
 
