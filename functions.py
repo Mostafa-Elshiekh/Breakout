@@ -7,11 +7,6 @@ import threading
 
 pygame.mixer.init()
 
-def SoundFuc(SoundTrack):
-    pygame.mixer.Sound(SoundTrack)
-    pygame.mixer.music.stop()
-
-
 
 # initial position of the borders ,wall and ball
 ball = RECTA(50, 50, 65, 65)  # initial position of the ball
