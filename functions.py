@@ -2,8 +2,16 @@ from global_var import*
 from classes import*
 from OpenGL.GL import *
 from OpenGL.GLUT import *
+import pygame
+import threading
 
-import time
+pygame.mixer.init()
+
+def SoundFuc(SoundTrack):
+    pygame.mixer.Sound(SoundTrack)
+    pygame.mixer.music.stop()
+
+
 
 # initial position of the borders ,wall and ball
 ball = RECTA(50, 50, 65, 65)  # initial position of the ball
@@ -149,15 +157,19 @@ def Display():
     DrawRectangle(ball)
     if Test_Ball_Wall(ball, wall) == FROM_RIGHT:
         deltaX = -1
+        pygame.mixer.Sound("./sounds/wall.wav").play()
 
     if Test_Ball_Wall(ball, wall) == FROM_LEFT:
         deltaX = 1
+        pygame.mixer.Sound("./sounds/wall.wav").play()
 
     if Test_Ball_Wall(ball, wall) == FROM_TOP:
         deltaY = -1
+        pygame.mixer.Sound("./sounds/wall.wav").play()
 
     if Test_Ball_Wall(ball, wall) == FROM_BOTTOM:
         deltaY = 1
+        pygame.mixer.Sound("./sounds/wall.wav").play()
 
 
 
@@ -170,10 +182,12 @@ def Display():
 
     if Test_Ball_Player(ball, player):
         deltaY = 1
+        pygame.mixer.Sound("./sounds/bat.wav").play()
 
     if Test_Ball_me(ball,me):
         deltaY=-1
         playerResult=playerResult+1
+        pygame.mixer.Sound("./sounds/brick.wav").play()
 
 
     # to draw the borders
@@ -198,7 +212,6 @@ def Display():
 
 
     for i in range(0,40) :  # to draw the all rect in levels
-        #if numbers==0:
         glColor(1, 1, 0)
         DrawRectangle(me[i])
 
