@@ -82,7 +82,7 @@ def Test_Ball_Player(ball, player):  # Collision Detection between Ball and Bat
 
 def Test_Ball_me(ball, me):  # Collision Detection between Ball and Bat
     count = 0
-    for i in range(0, 60):
+    for i in range(0, 120):
         count += 500
         if ball.left >= me[i].left and \
                 ball.top >= me[i].bottom and \
