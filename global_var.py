@@ -10,7 +10,7 @@ WINDOW_HEIGHT = 600
 
 playerResult = 0
 
-deltaX = 1
-deltaY = 1
+deltaX = 1.7
+deltaY = 1.7
 
-time_interval = 2
+time_interval = 1
