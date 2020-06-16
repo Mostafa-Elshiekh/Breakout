@@ -181,7 +181,7 @@ def Display():
     DrawRectangle(Rect9)
     DrawRectangle(Rect10)
 
-    for i in range(120):  # to draw the all rect in levels
+    for i in range(240):  # to draw the all rect in levels
         glColor(1, 1, 0)
         DrawRectangle(me[i])
     threading.Timer(10, move).start()
